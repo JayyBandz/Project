@@ -10,7 +10,9 @@ class MultiplicationGame:
     def start_game(self):
         print("Welcome to the Multiplication Game!")
         num_questions = 5
-        time_limit = 30.0
+        time_limit_per_question = 10.0
+        overall_time_limit = 60.0
+        start_time = time.time()
 
         for _ in range(num_questions):
             num1 = random.randint(1, 10)
@@ -18,20 +20,25 @@ class MultiplicationGame:
             correct_answer = num1 * num2
 
             question = f"What is {num1} multiplied by {num2}? "
-            start_time = time.time()
+            question_start_time = time.time()
 
             user_answer = self.get_user_input(question)
 
-            end_time = time.time()
-            elapsed_time = end_time - start_time
+            question_end_time = time.time()
+            elapsed_time = question_end_time - question_start_time
 
-            if elapsed_time > time_limit:
-                print(f"Time's up! You took too long to answer. The correct answer is {correct_answer}\n")
+            if elapsed_time > time_limit_per_question:
+                print(f"Time's up for this question! The correct answer is {correct_answer}\n")
             elif int(user_answer) == correct_answer:
                 print(f"Correct! You answered in {elapsed_time:.2f} seconds.\n")
                 self.score += 1
             else:
                 print(f"Wrong! The correct answer is {correct_answer}\n")
+
+            # Check overall time limit
+            if time.time() - start_time > overall_time_limit:
+                print("Time's up! Overall time limit reached.")
+                break
 
         print("Game Over!")
         print(f"Your score: {self.score}/{num_questions}\n")
@@ -84,4 +91,5 @@ if __name__ == "__main__":
     number_to_factorize = 36
     prime_factors = calculate_prime_factors(number_to_factorize)
     print(f"Prime factors of {number_to_factorize}: {prime_factors}")
+
 
