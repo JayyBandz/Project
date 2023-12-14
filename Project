@@ -9,7 +9,7 @@ class MultiplicationGame:
 
     def start_game(self):
         print("Welcome to the Multiplication Game!")
-        num_questions = 5
+        num_questions = 10
         time_limit_per_question = 10.0
         overall_time_limit = 60.0
         start_time = time.time()
