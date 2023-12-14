@@ -1,0 +1,79 @@
+import time
+import random
+
+# Classes
+class MultiplicationGame:
+    def __init__(self):
+        self.score = 0
+        self.performance_scores = []
+
+    def start_game(self):
+        print("Welcome to the Multiplication Game!")
+        num_questions = 5
+        time_limit = 30.0
+
+        for _ in range(num_questions):
+            num1 = random.randint(1, 10)
+            num2 = random.randint(1, 10)
+            correct_answer = num1 * num2
+
+            question = f"What is {num1} multiplied by {num2}? "
+            user_answer = self.get_user_input(question)
+
+            if int(user_answer) == correct_answer:
+                print("Correct!\n")
+                self.score += 1
+            else:
+                print(f"Wrong! The correct answer is {correct_answer}\n")
+
+        print("Game Over!")
+        print(f"Your score: {self.score}/{num_questions}\n")
+
+        # Store performance scores using a text file
+        self.performance_scores.append(self.score)
+        self.save_performance_scores()
+
+        self.show_performance_history()
+
+    def get_user_input(self, prompt):
+        while True:
+            try:
+                user_input = input(prompt)
+                return int(user_input)
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+
+    def save_performance_scores(self):
+        with open("performance_scores.txt", "a") as file:
+            file.write(f"{self.score}\n")
+
+    def show_performance_history(self):
+        try:
+            with open("performance_scores.txt", "r") as file:
+                lines = file.readlines()
+                scores = [int(line.strip()) for line in lines]
+                print("Performance History:")
+                print(scores)
+        except FileNotFoundError:
+            print("No performance history found.")
+
+# Function
+def calculate_prime_factors(number):
+    factors = []
+    divisor = 2
+    while divisor <= number:
+        if number % divisor == 0:
+            factors.append(divisor)
+            number = number // divisor
+        else:
+            divisor += 1
+    return factors
+
+# Main program
+if __name__ == "__main__":
+    game_instance = MultiplicationGame()
+    game_instance.start_game()
+
+    number_to_factorize = 36
+    prime_factors = calculate_prime_factors(number_to_factorize)
+    print(f"Prime factors of {number_to_factorize}: {prime_factors}")
